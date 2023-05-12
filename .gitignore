@@ -1,3 +1,4 @@
 .idea/
 notebooks/data
 src/__pycache__/
+notebooks/.ipynb_checkpoints/
