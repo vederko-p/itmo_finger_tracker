@@ -16,3 +16,14 @@
 # Hand Landmarks
 
 ![img.png](imgs/img.png)
+
+# Запуск
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+cd src
+python main.py
+```
