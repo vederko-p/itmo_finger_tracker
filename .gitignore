@@ -2,4 +2,5 @@
 notebooks/data
 src/__pycache__/
 notebooks/.ipynb_checkpoints/
-notebooks/__pycache__/
+notebooks/__pycache__/.ipynb_checkpoints
+__pycache__
