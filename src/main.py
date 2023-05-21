@@ -1,41 +1,51 @@
-
+import numpy as np
+from PIL import Image
 import cv2
 from tracker import PositionTracker
-from models.mediapipe_hands import MediapipeModel
+from models.mediapipe_hands import MediapipeModel, MediapipeHandDetector
+from models.graphormer import HandTopDownRecognition
 
 
 POINT_COLOR = (0, 0, 255)
 
-mediapipe_model = MediapipeModel()
+# mediapipe_model = MediapipeModel()
+detector = MediapipeHandDetector()
+hand = HandTopDownRecognition()
 position_tracker = PositionTracker(n_to_hold=20)
 
+def main(path):
+    cap = cv2.VideoCapture(path)
+    frame_width,frame_height = int(cap.get(3)), int(cap.get(4))
+    out = cv2.VideoWriter(f"output/output.mp4",0x7634706d, 24.0, (frame_width,frame_height), True)
 
-def main():
-    cap = cv2.VideoCapture(0)
-    while True:
-
+    while (cap.isOpened()):
         # get frame:
         ret, frame = cap.read()
         if not ret:
             break
 
-        # detect finger print:
-        cords = mediapipe_model(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        if cords is not None:
-            position_tracker.append(cords)
-
+        # detect hand:
+        boxes = detector(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        
         # add points:
-        for xy in position_tracker.cords:
-            cv2.circle(frame, (xy[0], xy[1]), 10, POINT_COLOR, -1)
+        if len(boxes) > 0:
+            for points in boxes:
+                img = Image.fromarray(frame)
+                img_size = img.size
+                crop = img.crop(points)
+                keypoints = hand.get_keypoints(crop)
+                keypoints = (keypoints + 1) * 0.5
+                keypoints[:,:,0] = (keypoints[:,:,0] * crop.size[0]) + points[0]
+                keypoints[:,:,1] = (keypoints[:,:,1] * crop.size[1]) + points[1]
+                keypoints = keypoints.cpu().detach().numpy().astype(int)
+                position_tracker.append(keypoints[0][8])
+                for xy in position_tracker.cords:
+                    cv2.circle(frame, xy, 5, POINT_COLOR, -1)
+                    
+        out.write(np.uint8(frame))
+    out.release()
 
-        # show frame:
-        cv2.imshow('MyWindow', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':
-    main()
+    main('/root/other/itmo_finger_tracker/videos/test.mp4')
