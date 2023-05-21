@@ -20,10 +20,23 @@
 # Запуск
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/vederko-p/itmo_finger_tracker.git
+
+cd itmo_finger_tracker
+
+conda env create -f conda_env.yml
+
+conda activate gphmr
+
+git clone https://github.com/hassony2/manopth.git
+
+cd manopth
+
+python3 -m pip install -e .
+
+cd ..
 ```
 
 ```bash
-cd src
-python main.py
+python3 -m src.main
 ```
