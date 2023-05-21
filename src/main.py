@@ -1,9 +1,9 @@
 import numpy as np
 from PIL import Image
 import cv2
-from tracker import PositionTracker
-from models.mediapipe_hands import MediapipeModel, MediapipeHandDetector
-from models.graphormer import HandTopDownRecognition
+from src.tracker import PositionTracker
+from src.models.mediapipe_hands import MediapipeModel, MediapipeHandDetector
+from src.models.graphormer import HandTopDownRecognition
 
 
 POINT_COLOR = (0, 0, 255)
