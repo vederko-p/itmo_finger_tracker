@@ -197,4 +197,3 @@ dependencies:
     - zope-deprecation==5.0
     - zope-interface==6.0
     - zope-sqlalchemy==2.0
-prefix: /opt/conda/envs/gphmr
