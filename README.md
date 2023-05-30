@@ -40,3 +40,10 @@ cd ..
 ```bash
 python3 -m src.main
 ```
+
+# Models Summary
+
+|Model|OKS|
+|:----|:--|
+|Mediapipe Hand Key Points Detector|0.155|
+|Self Made Detector|0.00282|
