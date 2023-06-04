@@ -45,5 +45,5 @@ python3 -m src.main
 
 |Model|OKS|
 |:----|:--|
-|Mediapipe Hand Key Points Detector|0.155|
-|Self Made Detector|0.00282|
+|Mediapipe Hand Key Points Detector|0.341|
+|Self Made Detector|0.263|
